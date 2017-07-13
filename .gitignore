@@ -99,3 +99,7 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# IDE's folders
+.idea/
+.vscode/
