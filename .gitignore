@@ -103,3 +103,7 @@ ENV/
 # IDE's folders
 .idea/
 .vscode/
+
+# Database files
+*.sqlite
+*.db
