@@ -1,5 +1,8 @@
-# Example of local settings
+import os
+
+from .settings import basedir
+
 
 DEBUG = True
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:////test.db'
+SQLALCHEMY_DATABASE_URI = 'sqlite:///%s'%os.path.join(basedir, 'test.db')
