@@ -1,31 +1,30 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms_alchemy import ModelForm
+
+from .models import User
+
+from sqlalchemy.orm.attributes import InstrumentedAttribute
+
+from wtforms import PasswordField
+from wtforms.validators import DataRequired, EqualTo
 
 
-class UserCreateForm(FlaskForm):
+class UserCreateForm(ModelForm):
     """
     Represent user registration form
     """
-    login = StringField(
-        'login',
-        validators=[DataRequired()],
-        render_kw={'placeholder': 'login'}
-    )
-    email = StringField(
-        'email',
-        validators=[Email()],
-        render_kw={'placeholder': 'email'}
-    )
+    class Meta:
+        model = User
+        exclude =['role', 'first_name', 'last_name']
 
-    password = PasswordField(
-        'password1',
-        validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')],
-        render_kw={'placeholder': 'password'}
-    )
+        # auto generate placeholder from field name
+        field_args = {
+            field:{'render_kw':{'placeholder':field.replace('_', ' ')}}
+            for field, val in User.__dict__.items()
+            if isinstance(val, InstrumentedAttribute)
+        }
 
     confirm = PasswordField(
-        'password2',
-        validators=[DataRequired()],
-        render_kw={'placeholder': 'repeat password'}
+        'confirm',
+        validators=[DataRequired(), EqualTo('password')],
+        render_kw={'placeholder':'repeat password'}
     )

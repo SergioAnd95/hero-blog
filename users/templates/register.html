@@ -2,7 +2,7 @@
 {% block content %}
 <h2>Register</h2>
     <form method='post' enctype="multipart/form-data">
-        {{ register_form.csrf_token }}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         {% for field in register_form %}
         {% if field.errors %}
             <ul>
