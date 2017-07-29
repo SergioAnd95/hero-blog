@@ -2,6 +2,10 @@ from flask import Blueprint, request, render_template, redirect
 
 from .forms import UserCreateForm
 
+from .models import User
+
+from app import db
+
 user_pages = Blueprint('user_pages', __name__,
                         template_folder='templates')
 
@@ -13,13 +17,14 @@ def register():
     :return:
     """
 
-    register_form = UserCreateForm()
+    register_form = UserCreateForm(request.form)
 
     if request.method == 'POST':
-        register_form = UserCreateForm(request.form)
-
         if register_form.validate():
-
+            user = User(request.form['username'],request.form['email'], \
+                        request.form['password'])
+            db.session.add(user)
+            db.session.commit()
             return redirect('/')
 
     return render_template('register.html', register_form=register_form)

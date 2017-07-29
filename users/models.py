@@ -37,3 +37,15 @@ class User(db.Model):
         ),
         nullable=False
     )
+
+    def __init__(self, username, email, password, first_name="", last_name="", role=1):
+        '''
+        User instance info for db session
+        TODO: check first_name, last_name, role handling (these fields are not in form)
+        '''
+        self.username = username
+        self.email = email
+        self.first_name = first_name
+        self.last_name = last_name
+        self.role = role
+        self.password = password
